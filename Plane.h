@@ -8,8 +8,8 @@ private: // not necessary, private is default setting of a class
 
 public:
 	// function members
-	int get_wing();
-	void set_wing(int wing);
+	int get_wing() const;
+	void set_wing(int wing) const;
 
 	// For function members, there will be a few special functions
 	// constructor and deconstructor
@@ -21,4 +21,7 @@ public:
 
 	~Plane(); // this function is a deconstructor
 };
+
+static void print_something();
+void another_print();
 #endif
