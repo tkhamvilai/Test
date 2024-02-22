@@ -1,86 +1,54 @@
 #include <iostream>
-#include <array>
-#include <vector>
-#include <map>
 #include "Plane.h"
+#include "Polymorphism.h"
+#include <array>
 
-// 2/15
-// static and global
-// const
-// template function
-// template class
-
-// const in front of a function means that the function is returning a constant variable
-const double func( const float a ) // a is read-only
-{
-	return a;
-}
-
-const double& func2()
-{
-	double b = 2;
-	std::cout << b << "," << & b << std::endl;
-	return b;
-}
-
-template <typename asdf, typename qwer>
-void myFunction( asdf input, asdf input2, int input3, qwer input4)
-{
-	input4++;
-	std::cout << input << std::endl; // need to print an input here regardless of the datatype of this input variable
-}
-
-template <typename T> // template class
-class MyClass { // MyClass is the name of the class
-private:
-	T x; // x is a private variable member with a datatype T
-public: // public function members
-	MyClass( T xx )
-		:x{ xx }
-	{
-	}
-
-	T getvalue()
-	{
-		return x;
-	}
-};
-
+// 2/22
+// Polymorphism
+// Virtual functions (virtual, override, final)
+// Virtual Deconstructor
+// Pure Virtual function & Abstract class
 
 int main()
 {
-	// template class
-	MyClass<int> obj(5);
-	std::cout << obj.getvalue() << std::endl;
-	MyClass<char> obj( 'c');
-	std::cout << obj.getvalue() << std::endl;
+	Animal animal1;
+	//animal1.a; // error
+	animal1.b = 2;
+	//animal1.c = 3; // error
 
-	// template
-	// template allows you to use a datatype as an input to a function or a class
-	// All containers utilize template
-	std::array<int, 3> a = { 1,2,3 };
-	std::array<float, 3> b = { 1,2,3 };
-	std::vector<char> c = { 'a','b' };
-	std::map<int, std::array<char,8>> d;
+	Dog dog1;
+	Cat cat1;
+	dog1.func();
+	cat1.func();
+	std::cout << dog1.b << std::endl;
+	std::cout << cat1.b << std::endl;
 
-	myFunction<char,double>( 'a', 'b',6, 2.3);
-	myFunction<int,char>( 6,5,7, '5' );
-	myFunction<float, std::array<int, 3>>( 5.34,0.1,8, a );
+	Animal animal2 = dog1;
+	//animal2.d = 10; // error
+	std::cout << animal2.b << std::endl;
 
-	// const - variable/function/input&output arguments
-	// const makes variable/function read-only
+	std::cout << &animal2 << "," << &dog1 << std::endl;
 
-	//const int x = 1; // const is typically used as a warning (so that you get a compilation error)
-	//x = x + 1;
-	//std::cout << x << std::endl;
+	Animal* animal3 = &dog1; // pointer
+	Animal& animal4 = cat1; // reference
+	// animal3 and animal4 represent the
+	// base class portion of dog1 and cat1
 
-	//const int* p = &x; // const pointer pointing to constant variable
-	//double y = func(10);
-	//y++;
+	// I cannot tell all these three objects
+	// to call the same function even if they
+	// are all animal.
+	//animal1.speak();
+	//dog1.speak();
+	//cat1.speak();
 
-	//const double& z = func2();
-	//std::cout << z << "," << & z << std::endl;
+	std::array<Animal*,3> farm = { &animal1, &dog1, &cat1 };
+	for ( auto a : farm )
+	{
+		a->speak(); // only "???" is printed out
+	}
 
+	//Base b; // error, Base is an abstract class
+	Derived d;
 	return 0;
 }
 
