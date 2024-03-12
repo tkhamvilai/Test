@@ -1,54 +1,45 @@
 #include <iostream>
-#include "Plane.h"
-#include "Polymorphism.h"
-#include <array>
+#include <thread>
+#include <chrono>
+#include <string>
 
-// 2/22
-// Polymorphism
-// Virtual functions (virtual, override, final)
-// Virtual Deconstructor
-// Pure Virtual function & Abstract class
-
-int main()
+void print_AERSP()
 {
-	Animal animal1;
-	//animal1.a; // error
-	animal1.b = 2;
-	//animal1.c = 3; // error
-
-	Dog dog1;
-	Cat cat1;
-	dog1.func();
-	cat1.func();
-	std::cout << dog1.b << std::endl;
-	std::cout << cat1.b << std::endl;
-
-	Animal animal2 = dog1;
-	//animal2.d = 10; // error
-	std::cout << animal2.b << std::endl;
-
-	std::cout << &animal2 << "," << &dog1 << std::endl;
-
-	Animal* animal3 = &dog1; // pointer
-	Animal& animal4 = cat1; // reference
-	// animal3 and animal4 represent the
-	// base class portion of dog1 and cat1
-
-	// I cannot tell all these three objects
-	// to call the same function even if they
-	// are all animal.
-	//animal1.speak();
-	//dog1.speak();
-	//cat1.speak();
-
-	std::array<Animal*,3> farm = { &animal1, &dog1, &cat1 };
-	for ( auto a : farm )
-	{
-		a->speak(); // only "???" is printed out
-	}
-
-	//Base b; // error, Base is an abstract class
-	Derived d;
-	return 0;
+  while ( 1 )
+  {
+    std::cout << "AERSP" << std::endl;
+    std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+  }
 }
 
+void print_424()
+{
+  while ( 1 )
+  {
+    std::cout << "424" << std::endl;
+    std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+  }
+}
+
+void print( std::string s )
+{
+  while ( 1 )
+  {
+    std::cout << s << std::endl;
+    std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+  }
+}
+
+int main() 
+{
+  std::thread t1( print_AERSP );
+  std::thread t2( print_424 );
+
+  // alternative
+  //std::thread t1( print, "AERSP" );
+  //std::thread t2( print, "424" );
+
+  t1.join();
+  t2.join();
+  return 0;
+}
